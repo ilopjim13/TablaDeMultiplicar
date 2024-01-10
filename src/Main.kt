@@ -6,7 +6,7 @@
  *
  * @return Int - número entero válido dentro del rango especificado
  */
-fun pedirNum() : Int {
+fun pedirNum(min:Int, max:Int) : Int {
     var num = 0
     do {
         try {
@@ -22,7 +22,7 @@ fun pedirNum() : Int {
             print("**ERROR** Número no válido (pulse ENTER para continuar...) ")
             readln()
         }
-        } while (num < 1 || num > 100)
+        } while (num < min || num > max)
     return 0
 }
 
@@ -33,32 +33,40 @@ fun pedirNum() : Int {
  *
  * @return Boolean - true/false dependiendo de la respuesta válida a la pregunta
  */
-fun pregunta():Boolean {
+fun pregunta(text:String):Boolean {
     var respuesta = true
     do {
-        print("¿Desea generar otra tabla de multiplicación? (s/n) ")
+        print(text)
         val p = readln()
         when (p) {
             "s" -> respuesta = true
+            "si" -> respuesta = true
             "n" -> respuesta = false
+            "no" -> respuesta = false
             else -> {
                 print("**Respuesta no válida** (Pulse ENTER para continuar)")
                 readln()
             }
         }
-    } while (p != "s" && p != "n")
+    } while (p != "s" && p != "n" && p != "si" && p != "no")
     return respuesta
 }
 
 fun main() {
+    val min = 1
+    val max = 100
+    val text = "¿Desea generar otra tabla de multiplicación? (s/n) "
 //TODO: Solicitar la introducción de un número entre 1 y 100 y mostrar su table de multiplicar...
 //Hasta que se responda negativamente a la pregunta "¿Desea generar otra tabla de multiplicación? (s/n)"
     do {
-        val num = pedirNum()
+        val num = pedirNum(min,max)
         println("La tabla de multiplicar del número $num es: ")
-        val tabla = IntArray(10, {i -> i + 1})
+        val tabla = IntArray(10) { i -> i + 1 }
+        //val tabla = Array<String>(11) {"$it -> $num x $it = ${it * num}" }
         for (i in tabla) {
             println("$i -> $num x $i = ${i * num}")
+            //println(i)
         }
-    } while (pregunta())
+        //tabla.forEach {println(it)}
+    } while (pregunta(text))
 }
